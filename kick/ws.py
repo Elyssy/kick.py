@@ -71,6 +71,9 @@ class PusherWebSocket:
                         self.http.client.dispatch("untimeout", user, chatroom, unbanned_by)
                     case True:
                         self.http.client.dispatch("unban", user, chatroom, unbanned_by)
+            case "App\\Events\\ChatroomClearEvent":
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())
     async def start(self) -> None:
         while not self.ws.closed:
             await self.poll_event()

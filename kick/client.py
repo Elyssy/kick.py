@@ -388,7 +388,7 @@ class Client:
         """
         |coro|
 
-        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        on_unban is an event that can be overriden with the `Client.event` decorator or with a subclass.
         This is called when someone banned.
 
         Parameters
@@ -405,7 +405,7 @@ class Client:
         """
         |coro|
 
-        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        on_timeout is an event that can be overriden with the `Client.event` decorator or with a subclass.
         This is called when someone banned.
 
         Parameters
@@ -424,7 +424,7 @@ class Client:
         """
         |coro|
 
-        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        on_untimeout is an event that can be overriden with the `Client.event` decorator or with a subclass.
         This is called when someone banned.
 
         Parameters
@@ -435,6 +435,21 @@ class Client:
             The chatroom's id where user get banned
         unbanned_by: `User`
             The User who banned this User
+        """
+
+    async def on_chatroom_clear(self, chatroom: Chatroom, cleared_at) -> None:
+        """
+        |coro|
+
+        on_chatroom_clear is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        chatroom: `Chatroom`
+            The chatroom's id
+        cleared_at: datetime.datetime
+            When cannel get cleaned
         """
 
     def run(
