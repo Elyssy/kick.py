@@ -415,7 +415,7 @@ class Client:
         chatroom: `Chatroom`
             The chatroom's id where user get banned
         banned_by: `User`
-            The User who banned this User
+            The User who banned this user: PartialUser
         expires_at: datetime.datetime
             The datetime when user's timeout will be expired
         """
@@ -430,11 +430,28 @@ class Client:
         Parameters
         -----------
         user: `PartialUser`
-            The User just get banned
+            The PartialUser
         chatroom: `Chatroom`
-            The chatroom's id where user get banned
+            The Chatroom
         unbanned_by: `User`
-            The User who banned this User
+            The User who unbanned this user: PartialUser
+        """
+
+    async def on_subscription(self, user: User, months: int, chatroom: Chatroom) -> None:
+        """
+        |coro|
+
+        on_subscription is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `User`
+            The User
+        months: int
+            Subscription streak
+        chatroom: `Chatroom`
+            The chatroom
         """
 
     async def on_chatroom_clear(self, chatroom: Chatroom, cleared_at) -> None:
@@ -447,7 +464,7 @@ class Client:
         Parameters
         -----------
         chatroom: `Chatroom`
-            The chatroom's id
+            The chatroom
         cleared_at: datetime.datetime
             When cannel get cleaned
         """

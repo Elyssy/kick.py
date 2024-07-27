@@ -71,6 +71,10 @@ class PusherWebSocket:
                         self.http.client.dispatch("untimeout", user, chatroom, unbanned_by)
                     case True:
                         self.http.client.dispatch("unban", user, chatroom, unbanned_by)
+            case "App\\Events\\SubscriptionEvent":
+                chatroom = self.http.client.get_chatroom(data['chatroom_id'])
+                user = await self.http.client.get_partial_chatter(chatter_name=data['username'], streamer_name=chatroom.streamer.username).to_user()
+                self.http.client.dispatch("subscription", user, data['months'], chatroom)
             case "App\\Events\\ChatroomClearEvent":
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
                 self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())
