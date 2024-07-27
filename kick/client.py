@@ -367,6 +367,76 @@ class Client:
             The streamer
         """
 
+    async def on_ban(self, user: PartialUser, chatroom: Chatroom, banned_by: User) -> None:
+        """
+        |coro|
+
+        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `PartialUser`
+            The User just get banned
+        chatroom: `Chatroom`
+            The chatroom's id where user get banned
+        banned_by: `User`
+            The User who banned this User
+        """
+
+    async def on_unban(self, user: PartialUser, chatroom: Chatroom, unbanned_by: User) -> None:
+        """
+        |coro|
+
+        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `PartialUser`
+            The User just get banned
+        chatroom: `Chatroom`
+            The chatroom's id where user get banned
+        unbanned_by: `User`
+            The User who banned this User
+        """
+
+    async def on_timeout(self, user: PartialUser, chatroom: Chatroom, banned_by: User, expires_at) -> None:
+        """
+        |coro|
+
+        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `PartialUser`
+            The User just get banned
+        chatroom: `Chatroom`
+            The chatroom's id where user get banned
+        banned_by: `User`
+            The User who banned this User
+        expires_at: datetime.datetime
+            The datetime when user's timeout will be expired
+        """
+
+    async def on_untimeout(self, user: PartialUser, chatroom: Chatroom, unbanned_by: User) -> None:
+        """
+        |coro|
+
+        on_ban is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `PartialUser`
+            The User just get banned
+        chatroom: `Chatroom`
+            The chatroom's id where user get banned
+        unbanned_by: `User`
+            The User who banned this User
+        """
+
     def run(
         self,
         credentials: Credentials | None = None,

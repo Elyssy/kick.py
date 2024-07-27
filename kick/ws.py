@@ -11,6 +11,8 @@ from .message import Message
 if TYPE_CHECKING:
     from .http import HTTPClient
 
+from datetime import datetime
+
 __all__ = ()
 
 
@@ -49,6 +51,26 @@ class PusherWebSocket:
             case "App\\Events\\StopStreamBroadcast":
                 livestream = LivestreamEnd(data=data["livestream"], http=self.http)
                 self.http.client.dispatch("livestream_end", livestream)
+            case "App\\Events\\UserBannedEvent":
+                user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                banned_by = await self.http.client.get_partial_chatter(chatter_name=data['banned_by']['username'], streamer_name=chatroom.streamer.username).to_user()
+
+                match data['permanent']:
+                    case False:
+                        self.http.client.dispatch("timeout", user, chatroom, banned_by, datetime.fromisoformat(data['expires_at']))
+                    case True:
+                        self.http.client.dispatch("ban", user, chatroom, banned_by)
+            case "App\\Events\\UserUnbannedEvent":
+                user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                unbanned_by = await self.http.client.get_partial_chatter(chatter_name=data['unbanned_by']['username'], streamer_name=chatroom.streamer.username).to_user()
+
+                match data['permanent']:
+                    case False:
+                        self.http.client.dispatch("untimeout", user, chatroom, unbanned_by)
+                    case True:
+                        self.http.client.dispatch("unban", user, chatroom, unbanned_by)
     async def start(self) -> None:
         while not self.ws.closed:
             await self.poll_event()
