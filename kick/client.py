@@ -452,6 +452,32 @@ class Client:
             When cannel get cleaned
         """
 
+    async def on_chatroom_subscribe(self, chatroom: Chatroom) -> None:
+        """
+        |coro|
+
+        on_chatroom_subscribe is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        chatroom: `Chatroom`
+            The chatroom
+        """
+
+    async def on_channel_subscribe(self, user: User) -> None:
+        """
+        |coro|
+
+        on_channel_subscribe is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        user: `User`
+            The User
+        """
+
     def run(
         self,
         credentials: Credentials | None = None,

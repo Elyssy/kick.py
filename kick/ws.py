@@ -74,6 +74,14 @@ class PusherWebSocket:
             case "App\\Events\\ChatroomClearEvent":
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
                 self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())
+            case "pusher_internal:subscription_succeeded":
+                match raw_data['channel'].split('.')[0]:
+                    case 'chatrooms':
+                        chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                        self.http.client.dispatch("chatroom_subscribe", chatroom)
+                    case 'channel':
+                        user = self.http.client._watched_users.get(int(raw_data['channel'].split('.')[1]))
+                        self.http.client.dispatch("channel_subscribe", user)
     async def start(self) -> None:
         while not self.ws.closed:
             await self.poll_event()
