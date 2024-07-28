@@ -521,6 +521,20 @@ class Client:
             The User
         """
 
+    async def on_connection_establish(self, data: dict) -> None:
+        """
+        |coro|
+
+        on_connection_establish is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        data: dict
+        keys = ['socket_id': str, 'activity_timeout': int]
+            pusher's data
+        """
+
     def run(
         self,
         credentials: Credentials | None = None,

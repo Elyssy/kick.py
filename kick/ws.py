@@ -86,6 +86,8 @@ class PusherWebSocket:
                     case 'channel':
                         user = self.http.client._watched_users.get(int(raw_data['channel'].split('.')[1]))
                         self.http.client.dispatch("channel_subscribe", user)
+            case "pusher:connection_established":
+                self.http.client.dispatch("connection_establish", data)
     async def start(self) -> None:
         while not self.ws.closed:
             await self.poll_event()
