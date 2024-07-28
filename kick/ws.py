@@ -72,6 +72,9 @@ class PusherWebSocket:
             case "App\\Events\\SubscriptionEvent":
                 chatroom = self.http.client.get_chatroom(data['chatroom_id'])
                 self.http.client.dispatch("subscription", data['username'], data['months'], chatroom)
+            case "App\\Events\\ChatroomUpdatedEvent":
+                chatroom = self.http.client.get_chatroom(data['id'])
+                self.http.client.dispatch("chatroom_update", chatroom, data['slow_mode'], data['subscribers_mode']['enabled'], data['followers_mode'], data['emotes_mode']['enabled'], data['advanced_bot_protection'])
             case "App\\Events\\ChatroomClearEvent":
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
                 self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())

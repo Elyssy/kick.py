@@ -454,6 +454,32 @@ class Client:
             The Chatroom
         """
 
+    async def on_chatroom_update(self, chatroom: Chatroom, slow_mode: dict, is_subscriber: bool, followers_mode: dict, is_emote: bool, advanced_bot_protection: dict) -> None:
+        """
+        |coro|
+
+        on_chatroom_update is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when someone banned.
+
+        Parameters
+        -----------
+        chatroom: `Chatroom`
+            The chatroom
+        slow_mode: dict
+            keys = ['enabled': bool, 'message_interval': int]
+            Slow mode status
+        is_subscriber: bool
+            Returns True if channel is subscriber only, otherwise False
+        followers_mode: dict
+            keys = ['enabled': bool, 'min_duration': int]
+            Followers limit status
+        is_emote: bool
+            Returns True if channel is emote only, otherwise False
+        advanced_bot_protection: dict
+            keys = ['enabled': bool, 'remaining_time': int]
+            Bot protection limitation status
+        """
+
     async def on_chatroom_clear(self, chatroom: Chatroom, cleared_at) -> None:
         """
         |coro|
