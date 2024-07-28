@@ -367,7 +367,7 @@ class Client:
             The streamer
         """
 
-    async def on_ban(self, user: PartialUser, chatroom: Chatroom, banned_by: User) -> None:
+    async def on_ban(self, user: PartialUser, chatroom: Chatroom, banned_by:str) -> None:
         """
         |coro|
 
@@ -377,14 +377,14 @@ class Client:
         Parameters
         -----------
         user: `PartialUser`
-            The User just get banned
+            The PartialUser just get banned
         chatroom: `Chatroom`
             The chatroom's id where user get banned
-        banned_by: `User`
-            The User who banned this User
+        banned_by: str
+            The username who ban this user
         """
 
-    async def on_unban(self, user: PartialUser, chatroom: Chatroom, unbanned_by: User) -> None:
+    async def on_unban(self, user: PartialUser, chatroom: Chatroom, unbanned_by:str) -> None:
         """
         |coro|
 
@@ -394,14 +394,14 @@ class Client:
         Parameters
         -----------
         user: `PartialUser`
-            The User just get banned
+            The PartialUser just get unbanned
         chatroom: `Chatroom`
-            The chatroom's id where user get banned
-        unbanned_by: `User`
-            The User who banned this User
+            The chatroom's id where user get unbanned
+        unbanned_by: str
+            The username who unban this user
         """
 
-    async def on_timeout(self, user: PartialUser, chatroom: Chatroom, banned_by: User, expires_at) -> None:
+    async def on_timeout(self, user: PartialUser, chatroom: Chatroom, banned_by: str, expires_at) -> None:
         """
         |coro|
 
@@ -411,16 +411,16 @@ class Client:
         Parameters
         -----------
         user: `PartialUser`
-            The User just get banned
+            The PartialUser just get timed out
         chatroom: `Chatroom`
-            The chatroom's id where user get banned
-        banned_by: `User`
-            The User who banned this user: PartialUser
+            The Chatroom
+        banned_by: str
+            The username who ban this user
         expires_at: datetime.datetime
             The datetime when user's timeout will be expired
         """
 
-    async def on_untimeout(self, user: PartialUser, chatroom: Chatroom, unbanned_by: User) -> None:
+    async def on_untimeout(self, user: PartialUser, chatroom: Chatroom, unbanned_by: str) -> None:
         """
         |coro|
 
@@ -433,11 +433,11 @@ class Client:
             The PartialUser
         chatroom: `Chatroom`
             The Chatroom
-        unbanned_by: `User`
-            The User who unbanned this user: PartialUser
+        unbanned_by: str
+            The username who unban this user
         """
 
-    async def on_subscription(self, user: User, months: int, chatroom: Chatroom) -> None:
+    async def on_subscription(self, username: str, months: int, chatroom: Chatroom) -> None:
         """
         |coro|
 
@@ -446,12 +446,12 @@ class Client:
 
         Parameters
         -----------
-        user: `User`
-            The User
+        username: str
+            The username
         months: int
             Subscription streak
         chatroom: `Chatroom`
-            The chatroom
+            The Chatroom
         """
 
     async def on_chatroom_clear(self, chatroom: Chatroom, cleared_at) -> None:

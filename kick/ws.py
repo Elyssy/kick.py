@@ -54,8 +54,7 @@ class PusherWebSocket:
             case "App\\Events\\UserBannedEvent":
                 user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
-                banned_by = await self.http.client.get_partial_chatter(chatter_name=data['banned_by']['username'], streamer_name=chatroom.streamer.username).to_user()
-
+                banned_by = data['banned_by']['username']
                 match data['permanent']:
                     case False:
                         self.http.client.dispatch("timeout", user, chatroom, banned_by, datetime.fromisoformat(data['expires_at']))
@@ -64,8 +63,7 @@ class PusherWebSocket:
             case "App\\Events\\UserUnbannedEvent":
                 user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
-                unbanned_by = await self.http.client.get_partial_chatter(chatter_name=data['unbanned_by']['username'], streamer_name=chatroom.streamer.username).to_user()
-
+                unbanned_by = data['unbanned_by']['username']
                 match data['permanent']:
                     case False:
                         self.http.client.dispatch("untimeout", user, chatroom, unbanned_by)
@@ -73,8 +71,7 @@ class PusherWebSocket:
                         self.http.client.dispatch("unban", user, chatroom, unbanned_by)
             case "App\\Events\\SubscriptionEvent":
                 chatroom = self.http.client.get_chatroom(data['chatroom_id'])
-                user = await self.http.client.get_partial_chatter(chatter_name=data['username'], streamer_name=chatroom.streamer.username).to_user()
-                self.http.client.dispatch("subscription", user, data['months'], chatroom)
+                self.http.client.dispatch("subscription", data['username'], data['months'], chatroom)
             case "App\\Events\\ChatroomClearEvent":
                 chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
                 self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())
