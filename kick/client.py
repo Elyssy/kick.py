@@ -334,7 +334,7 @@ class Client:
         |coro|
 
         on_livestream_end is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when a user that is being watched ended streaming
+        This is called when a user that is being watched ends streaming
 
         Parameters
         -----------
@@ -389,7 +389,7 @@ class Client:
         |coro|
 
         on_unban is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when someone unbanned.
 
         Parameters
         -----------
@@ -406,7 +406,7 @@ class Client:
         |coro|
 
         on_timeout is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when someone timed out.
 
         Parameters
         -----------
@@ -425,7 +425,7 @@ class Client:
         |coro|
 
         on_untimeout is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when someone untimed out.
 
         Parameters
         -----------
@@ -442,7 +442,7 @@ class Client:
         |coro|
 
         on_subscription is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when someone subscribed to channel.
 
         Parameters
         -----------
@@ -454,12 +454,48 @@ class Client:
             The Chatroom
         """
 
+    async def on_pinnedmessage_create(self, chatroom: Chatroom, content: str, sent_at, sender: str, duration: int, msg_type: str) -> None:
+        """
+        |coro|
+
+        on_pinnedmessage_create is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when a message pinned on `Chatroom`.
+
+        Parameters
+        -----------
+        chatroom: `Chatroom`
+            The chatroom
+        content: str
+            The message that pinned on `Chatroom`
+        sent_at: datetime.datetime
+            When message sent
+        sender: str
+            The username who sent this message
+        duration: int
+            ...
+        msg_type: str
+            ...
+        """
+
+    async def on_pinnedmessage_clear(self, chatroom: Chatroom) -> None:
+        """
+        |coro|
+
+        on_pinnedmessage_clear is an event that can be overriden with the `Client.event` decorator or with a subclass.
+        This is called when pinned message cleared on `Chatroom`.
+
+        Parameters
+        -----------
+        chatroom: `Chatroom`
+            The chatroom
+        """
+
     async def on_chatroom_update(self, chatroom: Chatroom, slow_mode: dict, is_subscriber: bool, followers_mode: dict, is_emote: bool, advanced_bot_protection: dict) -> None:
         """
         |coro|
 
         on_chatroom_update is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when chatroom settings has been updated.
 
         Parameters
         -----------
@@ -485,7 +521,7 @@ class Client:
         |coro|
 
         on_chatroom_clear is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when chatroom cleared.
 
         Parameters
         -----------
@@ -500,7 +536,7 @@ class Client:
         |coro|
 
         on_chatroom_subscribe is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when chatroom started watching.
 
         Parameters
         -----------
@@ -513,7 +549,7 @@ class Client:
         |coro|
 
         on_channel_subscribe is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when channel started watching.
 
         Parameters
         -----------
@@ -526,7 +562,7 @@ class Client:
         |coro|
 
         on_connection_establish is an event that can be overriden with the `Client.event` decorator or with a subclass.
-        This is called when someone banned.
+        This is called when pusher connection established.
 
         Parameters
         -----------
