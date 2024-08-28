@@ -53,7 +53,7 @@ class PusherWebSocket:
                 self.http.client.dispatch("livestream_end", livestream)
             case "App\\Events\\UserBannedEvent":
                 user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
-                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').removesuffix('.v2')))
                 banned_by = data['banned_by']['username']
                 match data['permanent']:
                     case False:
@@ -62,7 +62,7 @@ class PusherWebSocket:
                         self.http.client.dispatch("ban", user, chatroom, banned_by)
             case "App\\Events\\UserUnbannedEvent":
                 user = self.http.client.get_partial_user(username=data['user']['username'], id=data['user']['id'])
-                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').removesuffix('.v2')))
                 unbanned_by = data['unbanned_by']['username']
                 match data['permanent']:
                     case False:
@@ -77,18 +77,18 @@ class PusherWebSocket:
                 chatroom = self.http.client.get_chatroom(msg['chatroom_id'])
                 self.http.client.dispatch("pinnedmessage_create", chatroom, msg['content'], datetime.fromisoformat(msg['created_at']), msg['sender']['username'], data['duration'], msg['type'])
             case 'App\\Events\\PinnedMessageDeletedEvent':
-                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').removesuffix('.v2')))
                 self.http.client.dispatch("pinnedmessage_clear", chatroom)
             case "App\\Events\\ChatroomUpdatedEvent":
                 chatroom = self.http.client.get_chatroom(data['id'])
                 self.http.client.dispatch("chatroom_update", chatroom, data['slow_mode'], data['subscribers_mode']['enabled'], data['followers_mode'], data['emotes_mode']['enabled'], data['advanced_bot_protection'])
             case "App\\Events\\ChatroomClearEvent":
-                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').removesuffix('.v2')))
                 self.http.client.dispatch("chatroom_clear", chatroom, datetime.now())
             case "pusher_internal:subscription_succeeded":
                 match raw_data['channel'].split('.')[0]:
                     case 'chatrooms':
-                        chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').rstrip('.v2')))
+                        chatroom = self.http.client.get_chatroom(int(raw_data['channel'].lstrip('chatrooms.').removesuffix('.v2')))
                         self.http.client.dispatch("chatroom_subscribe", chatroom)
                     case 'channel':
                         user = self.http.client._watched_users.get(int(raw_data['channel'].split('.')[1]))
