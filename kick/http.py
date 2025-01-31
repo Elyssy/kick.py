@@ -198,7 +198,7 @@ class HTTPClient:
             self.__session = ClientSession()
 
         actual_ws = await self.__session.ws_connect(
-            f"wss://ws-us2.pusher.com/app/eb1d5f283081a78b932c?protocol=7&client=js&version=7.6.0&flash=false"
+            f"wss://ws-us2.pusher.com/app/32cbd69e4b950bf97679?protocol=7&client=js&version=8.4.0-rc2&flash=false"
         )
         self.ws = PusherWebSocket(actual_ws, http=self)
         self.client.dispatch("ready")
