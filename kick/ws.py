@@ -4,7 +4,7 @@ import json
 from typing import TYPE_CHECKING
 
 from aiohttp import ClientWebSocketResponse as WebSocketResponse
-
+import logging
 from .livestream import PartialLivestream, LivestreamEnd
 from .message import Message
 
@@ -12,6 +12,8 @@ if TYPE_CHECKING:
     from .http import HTTPClient
 
 from datetime import datetime
+
+LOG = logging.getLogger(__name__)
 
 __all__ = ()
 
@@ -25,6 +27,7 @@ class PusherWebSocket:
 
     async def poll_event(self) -> None:
         raw_msg = await self.ws.receive()
+        LOG.debug(f"WS received: {raw_msg}")
         raw_data = raw_msg.json()
         data = json.loads(raw_data["data"])
 
